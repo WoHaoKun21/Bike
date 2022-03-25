@@ -13,9 +13,7 @@ const Admin = (props) => {
             <Col span={20} className="main">
                 <Header />
                 <Row className="content">
-                    <div className="home-wrap" style={{ width: "100%" }}>
-                        {props.children}
-                    </div>
+                    {props.children}
                 </Row>
                 <Footer />
             </Col>
