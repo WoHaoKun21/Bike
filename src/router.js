@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import Admin from "./Admin";
 import NoMatch from "./pages/noMatch";
 import City from "./pages/city/inde";
+import Order from "./pages/order";
 const IRouter = () => {
     return (
         <Router>
@@ -14,6 +15,7 @@ const IRouter = () => {
                             <Switch>
                                 <Route path="/home" component={Home} />
                                 <Route path="/city" component={City} />
+                                <Route path="/order" component={Order} />
                                 <Redirect to="/home" />
                                 <Route component={NoMatch} />
                             </Switch>
