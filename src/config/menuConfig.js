@@ -31,7 +31,7 @@ const menuList = [
     },
     {
         title: '柱形图',
-        key: '/charts/bar'
+        key: '/bar'
     },
     {
         title: '权限设置',
