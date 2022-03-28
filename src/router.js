@@ -5,11 +5,18 @@ import Admin from "./Admin";
 import NoMatch from "./pages/noMatch";
 import City from "./pages/city/inde";
 import Order from "./pages/order";
+import OrderDetail from "./pages/order/Detail";
+import Common from "./Common";
 const IRouter = () => {
     return (
         <Router>
             <App>
                 <Switch>
+                    <Route path="/common" render={() =>
+                        <Common>
+                            <Route path="/common/order/detail/:orderId" component={OrderDetail} />
+                        </Common>
+                    } />
                     <Route path="/" render={() =>
                         <Admin>
                             <Switch>

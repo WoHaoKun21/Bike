@@ -13,6 +13,9 @@ const Order = () => {
     const [flag, setFlag] = useState(false);
     const [rowKey, setRowKey] = useState([]);
     const [rowItem, SetRowItem] = useState({});
+    // 订单信息
+    const [bikeInfo, setBikeInfo] = useState({});
+    const [showInfo, setShowInfo] = useState(false);
     useEffect(() => {
         Axios.ajax({
             url: "/order/list",
@@ -54,14 +57,39 @@ const Order = () => {
             return;
         }
         Axios.ajax({
-            url: "/finish_order",
+            url: "/order/ebike_info",
             data: { params: { itemId: rowItem.id } }
         }).then(res => {
+            console.log(res.result);
             if (res.code === 0) {
-                message.success("订单结束成功")
-                setFlag(!flag);
+                setBikeInfo(res.result);
+                setShowInfo(true);
             }
         })
+    }
+    // “结束订单”的模态框的“OK”事件
+    const onOk = () => {
+        Axios.ajax({
+            url: "/finish_order",
+            data: { params: { itemId: showInfo.bike_sn } }
+        }).then(res => {
+            message.success("订单结束成功");
+            setShowInfo(false);
+            setFlag(!flag);
+            setRowKey([]);
+            SetRowItem({});
+        })
+    }
+    // “订单详情”按钮事件
+    const onhandleDetail = () => {
+        if (!rowItem.id) {
+            Modal.info({
+                title: "提示",
+                content: "请选择一条订单"
+            })
+            return;
+        }
+        window.open(`/#/common/order/detail/${rowItem.id}`, "_blank");
     }
     const columns = [
         { title: "订单编号", dataIndex: "order_sn", align: "center" },
@@ -87,13 +115,17 @@ const Order = () => {
         type: "radio",
         selectedRowKeys: rowKey// 选中的key值
     }
+    const formItemLayout = {
+        labelCol: { span: 5 },
+        wrapperCol: { span: 19 }
+    }
     return (
         <div style={{ width: "100%" }}>
             <Card>
                 <FormList ref={form} onhandleSearch={onhandleSearch} />
             </Card>
             <Card style={{ marginTop: 10 }}>
-                <Button type="primary" style={{ marginRight: 10 }}>订单详情</Button>
+                <Button type="primary" style={{ marginRight: 10 }} onClick={onhandleDetail}>订单详情</Button>
                 <Button type="primary" onClick={onhandleFinish}>结束订单</Button>
             </Card>
             <div className="content-wrap">
@@ -107,6 +139,17 @@ const Order = () => {
                     })}
                 />
             </div>
+            <Modal
+                title="结束订单"
+                visible={showInfo}
+                onCancel={() => setShowInfo(false)}
+                onOk={onOk}
+            >
+                <FormItem label="车辆编号" {...formItemLayout}>{bikeInfo.bike_sn}</FormItem>
+                <FormItem label="剩余电量" {...formItemLayout}>{bikeInfo.battery}%</FormItem>
+                <FormItem label="行程开始时间" {...formItemLayout}>{bikeInfo.start_time}</FormItem>
+                <FormItem label="当前位置" {...formItemLayout}>{bikeInfo.location}</FormItem>
+            </Modal>
         </div>
     );
 }
