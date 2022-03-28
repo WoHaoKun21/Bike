@@ -8,6 +8,7 @@ import Order from "./pages/order";
 import OrderDetail from "./pages/order/Detail";
 import Common from "./Common";
 import User from "./pages/user";
+import Map from "./pages/map";
 const IRouter = () => {
     return (
         <Router>
@@ -25,6 +26,7 @@ const IRouter = () => {
                                 <Route path="/city" component={City} />
                                 <Route path="/order" component={Order} />
                                 <Route path="/user" component={User} />
+                                <Route path="/bikeMap" component={Map} />
                                 <Redirect to="/home" />
                                 <Route component={NoMatch} />
                             </Switch>
