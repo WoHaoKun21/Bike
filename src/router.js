@@ -10,6 +10,7 @@ import Common from "./Common";
 import User from "./pages/user";
 import Map from "./pages/map";
 import Bar from "./pages/bar";
+import Permission from "./pages/permission";
 const IRouter = () => {
     return (
         <Router>
@@ -29,6 +30,7 @@ const IRouter = () => {
                                 <Route path="/user" component={User} />
                                 <Route path="/bikeMap" component={Map} />
                                 <Route path="/bar" component={Bar} />
+                                <Route path="/permission" component={Permission} />
                                 <Redirect to="/home" />
                                 <Route component={NoMatch} />
                             </Switch>
