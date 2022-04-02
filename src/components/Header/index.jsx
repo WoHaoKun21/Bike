@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import Utils from "../../utils";
 import "./index.less";
 
 const Header = (props) => {
-    const { menuType } = props;
+    const { menuType, menuName } = props;
     const [time, setTime] = useState("");
     useEffect(() => {
         setInterval(() => {
@@ -31,7 +32,7 @@ const Header = (props) => {
                 menuType ? null :
                     <Row className='breadcrumb'>
                         <Col span={4} className="bread-title">
-                            首页
+                            {menuName}
                         </Col>
                         <Col span={20} className="weather">
                             <span className='date'>{time}</span>
@@ -45,5 +46,7 @@ const Header = (props) => {
         </div>
     );
 };
-
-export default Header;
+const mapState = (state) => ({
+    menuName: state.menuName
+})
+export default connect(mapState)(Header);

@@ -106,7 +106,7 @@ const Permission = () => {
         }).then(res => {
             if (res.code === 0) {
                 setUserShow(true);
-                getRoleUserList(res.result)
+                getRoleUserList(res.result);
             }
         })
     }
@@ -140,7 +140,12 @@ const Permission = () => {
             url: "/role/user_role_edit",
             data: { params: data },
         }).then(res => {
-            console.log(res);
+            if (res.code === 0) {
+                message.success("用户权限设置成功");
+                setRowItem({});
+                setRowKeys([]);
+                setUserShow(false);
+            }
         })
     }
 
@@ -272,9 +277,7 @@ const RoleAuthForm = forwardRef((props, ref) => {
         return option.title.indexOf(inputValue) > -1;
     }
     // 实现用户左右调转
-    const handleChange = (targetKeys) => {
-        props.changeUserInfo(targetKeys);
-    }
+    const handleChange = (targetKeys) => props.changeUserInfo(targetKeys);
     const formItemList = {
         labelCol: { span: 5 },
         wrapperCol: { span: 18 }
@@ -293,7 +296,7 @@ const RoleAuthForm = forwardRef((props, ref) => {
                     render={(record) => record.title}
                     filterOption={filterOption}
                     onChange={handleChange}
-                    listStyle={{ height: 350 }}
+                    listStyle={{ width: 300, height: 350 }}
                 />
             </FormItem>
         </Form>
