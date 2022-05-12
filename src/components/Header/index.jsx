@@ -12,7 +12,7 @@ const Header = (props) => {
         setInterval(() => {
             let data = new Date().getTime()
             setTime(Utils.formateDate(data));
-        }, 1000);
+        }, 2000);
     }, [time]);
     return (
         <div className='header'>
